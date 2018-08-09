@@ -20,7 +20,7 @@ class RadioService(val context: Context) : Player.EventListener, AudioManager.On
     private lateinit var exoPlayer: SimpleExoPlayer
 
     private lateinit var status: String
-    private lateinit var streamUrl: String
+    private var streamUrl: String? = null
 
     fun onCreate() {
 
@@ -48,7 +48,7 @@ class RadioService(val context: Context) : Player.EventListener, AudioManager.On
 
     private fun resume() {
         if (streamUrl != null)
-            play(streamUrl);
+            play(streamUrl!!)
     }
 
     private fun pause() {
@@ -60,9 +60,9 @@ class RadioService(val context: Context) : Player.EventListener, AudioManager.On
     }
 
     fun playOrPause(url: String) {
-        if (streamUrl != null && streamUrl.equals(url)) {
+        if (streamUrl != null && streamUrl == url) {
             if (!isPlaying()) {
-                play(streamUrl)
+                play(streamUrl!!)
             } else {
                 pause()
             }

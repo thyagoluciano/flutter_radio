@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:flutter_radio/flutter_radio.dart';
 
 void main() => runApp(new MyApp());
@@ -18,15 +17,12 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    initPlatformState();
+    audioStart();
   }
 
-  Future<void> initPlatformState() async {
-    try {
-      await FlutterRadio.audioStart();
-    } on PlatformException {
-      print('error');
-    }
+  Future<void> audioStart() async {
+    await FlutterRadio.audioStart();
+    print('Audio Start OK');
   }
 
   @override
