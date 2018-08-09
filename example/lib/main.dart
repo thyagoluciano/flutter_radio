@@ -11,8 +11,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-  String url = "https://ia802708.us.archive.org/3/items/count_monte_cristo_0711_librivox/count_of_monte_cristo_001_dumas.mp3";
+  String url =
+      "https://ia802708.us.archive.org/3/items/count_monte_cristo_0711_librivox/count_of_monte_cristo_001_dumas.mp3";
 
   @override
   void initState() {
@@ -33,19 +33,18 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Audio Plugin Android'),
         ),
         body: new Center(
-          child: Column(
-            children: <Widget>[
-              FlatButton(
-                child: Icon(Icons.play_circle_filled),
-                onPressed: () => FlutterRadio.play(url: url),
-              ),
-              FlatButton(
-                child: Icon(Icons.pause_circle_filled),
-                onPressed: () => FlutterRadio.pause(),
-              )
-            ],
-          )
-        ),
+            child: Column(
+          children: <Widget>[
+            FlatButton(
+              child: Icon(Icons.play_circle_filled),
+              onPressed: () => FlutterRadio.play(url: url),
+            ),
+            FlatButton(
+              child: Icon(Icons.pause_circle_filled),
+              onPressed: () => FlutterRadio.pause(),
+            )
+          ],
+        )),
       ),
     );
   }

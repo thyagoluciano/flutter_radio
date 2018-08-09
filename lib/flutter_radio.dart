@@ -11,9 +11,7 @@ class FlutterRadio {
   }
 
   static Future<void> play({@required String url}) async {
-    final Map<String, dynamic> params = <String, dynamic> {
-      'url': url
-    };
+    final Map<String, dynamic> params = <String, dynamic>{'url': url};
 
     await _channel.invokeMethod('play', params);
   }
@@ -22,4 +20,3 @@ class FlutterRadio {
     await _channel.invokeMethod('pause');
   }
 }
-
