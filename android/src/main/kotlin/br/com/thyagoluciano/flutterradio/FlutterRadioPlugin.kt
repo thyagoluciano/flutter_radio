@@ -32,7 +32,9 @@ class FlutterRadioPlugin(val mRegistrar: Registrar): MethodCallHandler {
       radioManager.playOrPause(streamUrl)
     }
 
-    call.method == "pause" -> radioManager.playOrPause(streamUrl)
+    call.method == "pause" -> {
+      radioManager.playOrPause(streamUrl)
+    }
 
     else -> result.notImplemented()
   }
