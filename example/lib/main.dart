@@ -37,11 +37,11 @@ class _MyAppState extends State<MyApp> {
           children: <Widget>[
             FlatButton(
               child: Icon(Icons.play_circle_filled),
-              onPressed: () => FlutterRadio.play(url: url),
+              onPressed: () => FlutterRadio.playOrPause(url: url),
             ),
             FlatButton(
               child: Icon(Icons.pause_circle_filled),
-              onPressed: () => FlutterRadio.pause(),
+              onPressed: () => FlutterRadio.playOrPause(url: url),
             )
           ],
         )),
