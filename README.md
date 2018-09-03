@@ -2,6 +2,8 @@
 
 A Flutter audio plugin for Android to play remote audio files using ExoPlayer
 
+[![pub package](https://img.shields.io/badge/pub-0.1.0-blue.svg)](https://pub.dartlang.org/packages/flutter_launch)
+
 ## Installation
 
 First, add flutter_radio as a dependency in your pubspec.yaml file.
