@@ -4,14 +4,16 @@ import android.content.Context
 import android.media.AudioManager
 import android.net.Uri
 import com.google.android.exoplayer2.*
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.source.ExtractorMediaSource
+import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.TrackGroupArray
+import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.util.Util
 import org.greenrobot.eventbus.EventBus
 
 class RadioService(val context: Context) : Player.EventListener, AudioManager.OnAudioFocusChangeListener {
@@ -38,12 +40,24 @@ class RadioService(val context: Context) : Player.EventListener, AudioManager.On
         this.streamUrl = streamUrl
 
         val dataSourceFactory = DefaultDataSourceFactory(context, "flutter_radio", BANDWIDTH_METER)
-        val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory)
-                .setExtractorsFactory(DefaultExtractorsFactory())
-                .createMediaSource(Uri.parse(streamUrl))
+        val mediaSource = buildMediaSource(streamUrl, dataSourceFactory)
 
+        exoPlayer.stop()
         exoPlayer.prepare(mediaSource)
         exoPlayer.playWhenReady = true
+    }
+
+    private fun buildMediaSource(streamUrl: String,
+                                 dataSourceFactory: DefaultDataSourceFactory): MediaSource {
+        val uri = Uri.parse(streamUrl)
+        val type = Util.inferContentType(uri)
+        return when (type) {
+            C.TYPE_HLS   -> HlsMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
+            C.TYPE_OTHER -> ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
+            else         -> {
+                throw IllegalStateException("Unsupported type: $type")
+            }
+        }
     }
 
     private fun resume() {
