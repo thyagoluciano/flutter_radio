@@ -1,6 +1,6 @@
 name: flutter_radio
 description: A Flutter audio plugin for Android to play remote audio files using ExoPlayer
-version: 0.0.3
+version: 0.0.4
 author: Thyago Luciano <thyagoluciano@gmail.com>
 homepage: https://github.com/thyagoluciano/flutter_radio
 
@@ -14,4 +14,4 @@ flutter:
     pluginClass: FlutterRadioPlugin
 
 environment:
-  sdk: ">=1.19.0 <=2.0.0"
+  sdk: ">=1.19.0 <=2.1.0"
