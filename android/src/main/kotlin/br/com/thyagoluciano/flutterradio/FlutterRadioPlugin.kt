@@ -11,7 +11,6 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 class FlutterRadioPlugin(val mRegistrar: Registrar): MethodCallHandler {
 
   lateinit var radioManager: RadioManager
-  lateinit var streamUrl: String
 
   companion object {
     @JvmStatic
@@ -21,26 +20,26 @@ class FlutterRadioPlugin(val mRegistrar: Registrar): MethodCallHandler {
     }
   }
 
-  override fun onMethodCall(call: MethodCall, result: Result): Unit = when {
-
-    call.method == "audioStart" -> {
-      this.startPlayer()
-    }
-
-    call.method == "play" -> {
-      streamUrl = call.argument("url")
-      radioManager.playOrPause(streamUrl)
-    }
-
-    call.method == "pause" -> {
-      radioManager.playOrPause(streamUrl)
-    }
-
-    call.method == "playOrPause" -> {
-      radioManager.playOrPause(streamUrl)
-    }
-
-    else -> result.notImplemented()
+  override fun onMethodCall(call: MethodCall, result: Result): Unit {
+      when {
+        call.method.equals("audioStart") -> this.startPlayer()
+        call.method.equals("play") -> {
+          val url: String? = call.argument("url")
+          if (url != null)
+            radioManager.playOrPause(url)
+        }
+        call.method.equals("pause") -> {
+          val url: String? = call.argument("url")
+          if (url != null)
+            radioManager.playOrPause(url)
+        }
+        call.method.equals("playOrPause") -> {
+          val url: String? = call.argument("url")
+          if (url != null)
+            radioManager.playOrPause(url)
+        }
+        else -> result.notImplemented()
+      }
   }
 
   private fun startPlayer() {

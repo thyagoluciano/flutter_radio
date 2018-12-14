@@ -11,8 +11,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String url =
-      "https://ia802708.us.archive.org/3/items/count_monte_cristo_0711_librivox/count_of_monte_cristo_001_dumas.mp3";
+  static const streamUrl = "https://ia802708.us.archive.org/3/items/count_monte_cristo_0711_librivox/count_of_monte_cristo_001_dumas.mp3";
 
   @override
   void initState() {
@@ -37,11 +36,11 @@ class _MyAppState extends State<MyApp> {
           children: <Widget>[
             FlatButton(
               child: Icon(Icons.play_circle_filled),
-              onPressed: () => FlutterRadio.playOrPause(url: url),
+              onPressed: () => FlutterRadio.playOrPause(url: streamUrl),
             ),
             FlatButton(
               child: Icon(Icons.pause_circle_filled),
-              onPressed: () => FlutterRadio.playOrPause(url: url),
+              onPressed: () => FlutterRadio.playOrPause(url: streamUrl),
             )
           ],
         )),
