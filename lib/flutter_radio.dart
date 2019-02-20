@@ -20,6 +20,15 @@ class FlutterRadio {
     await _channel.invokeMethod('pause', params);
   }
 
+  static Future<void> stop() async {
+    await _channel.invokeMethod('stop');
+  }
+
+  static Future<bool> isPlaying() async {
+    final bool playing = await _channel.invokeMethod('isPlaying');
+    return playing;
+  }
+
   static Future<void> playOrPause({@required String url}) async {
     final Map<String, dynamic> params = <String, dynamic>{'url': url};
     await _channel.invokeMethod('playOrPause', params);
