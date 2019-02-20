@@ -11,12 +11,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  static const streamUrl = "https://ia802708.us.archive.org/3/items/count_monte_cristo_0711_librivox/count_of_monte_cristo_001_dumas.mp3";
+  static const streamUrl =
+      "https://ia802708.us.archive.org/3/items/count_monte_cristo_0711_librivox/count_of_monte_cristo_001_dumas.mp3";
+
+  bool isPlaying;
 
   @override
   void initState() {
     super.initState();
     audioStart();
+    playingStatus();
   }
 
   Future<void> audioStart() async {
@@ -36,15 +40,39 @@ class _MyAppState extends State<MyApp> {
           children: <Widget>[
             FlatButton(
               child: Icon(Icons.play_circle_filled),
-              onPressed: () => FlutterRadio.playOrPause(url: streamUrl),
+              onPressed: () {
+                FlutterRadio.playOrPause(url: streamUrl);
+                playingStatus();
+              },
             ),
             FlatButton(
               child: Icon(Icons.pause_circle_filled),
-              onPressed: () => FlutterRadio.playOrPause(url: streamUrl),
+              onPressed: () {
+                FlutterRadio.playOrPause(url: streamUrl);
+                playingStatus();
+              },
+            ),
+            FlatButton(
+              child: Icon(Icons.stop),
+              onPressed: () {
+                FlutterRadio.playOrPause(url: streamUrl);
+                playingStatus();
+              },
+            ),
+            Text(
+              'Check Playback Status: $isPlaying',
+              style: TextStyle(fontSize: 25.0),
             )
           ],
         )),
       ),
     );
+  }
+
+  Future playingStatus() async {
+    bool isP = await FlutterRadio.isPlaying();
+    setState(() {
+      isPlaying = isP;
+    });
   }
 }

@@ -38,6 +38,13 @@ class FlutterRadioPlugin(val mRegistrar: Registrar): MethodCallHandler {
           if (url != null)
             radioManager.playOrPause(url)
         }
+        call.method.equals("stop") -> {
+            radioManager.stop()
+        }
+        call.method.equals("isPlaying") -> {
+            val play = isPlaying()
+            result.success(play)
+        }
         else -> result.notImplemented()
       }
   }
@@ -46,6 +53,10 @@ class FlutterRadioPlugin(val mRegistrar: Registrar): MethodCallHandler {
     val context: Context = mRegistrar.context()
     radioManager = RadioManager(context)
     radioManager.initPlayer()
+  }
+
+  private fun isPlaying() : Boolean {
+      return radioManager.isPlaying()
   }
 
 }

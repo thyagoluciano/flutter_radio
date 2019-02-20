@@ -18,6 +18,8 @@ class RadioManager(private val context: Context) {
         service.playOrPause(streamUrl)
     }
 
+    fun stop() = service.stop()
+
     fun isPlaying(): Boolean {
         return service.isPlaying()
     }
