@@ -2,7 +2,7 @@
 
 A Flutter audio plugin for Android to play remote audio files using ExoPlayer
 
-[![pub package](https://img.shields.io/badge/pub-0.1.0-blue.svg)](https://pub.dartlang.org/packages/flutter_radio)
+[![pub package](https://img.shields.io/badge/pub-0.1.5-blue.svg)](https://pub.dartlang.org/packages/flutter_radio)
 
 ## Installation
 
@@ -64,3 +64,32 @@ class _MyAppState extends State<MyApp> {
   }
 }
 ```
+
+
+## Contributors ✨
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Dekkee">
+        <img src="https://avatars.githubusercontent.com/u/8166473?v=3" width="100px;" alt="Alexander Tihoniuk"/>
+        <br />
+        <sub><b>Alexander Tihoniuk</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://kentcdodds.com">
+        <img src="https://avatars.githubusercontent.com/u/26438532?v=3" width="100px;" alt="Yeikel200"/>
+        <br />
+        <sub><b>Yeikel200</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://kentcdodds.com">
+        <img src="https://avatars.githubusercontent.com/u/2340826?v=3" width="100px;" alt="Asheesh Srivastava"/>
+        <br />
+        <sub><b>Asheesh Srivastava</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
