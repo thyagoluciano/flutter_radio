@@ -125,11 +125,13 @@ class RadioService(val context: Context) : Player.EventListener, AudioManager.On
             else -> PlaybackStatus.IDLE
         }
 
-        EventBus.getDefault().post(status)
+        if (EventBus.getDefault().hasSubscriberForEvent(String::class.java))
+            EventBus.getDefault().post(status)
     }
 
     override fun onPlayerError(error: ExoPlaybackException?) {
-        EventBus.getDefault().post(PlaybackStatus.ERROR)
+        if (EventBus.getDefault().hasSubscriberForEvent(String::class.java))
+            EventBus.getDefault().post(PlaybackStatus.ERROR)
     }
 
     override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters?) {}
