@@ -22,24 +22,31 @@ class FlutterRadioPlugin(val mRegistrar: Registrar): MethodCallHandler {
 
   override fun onMethodCall(call: MethodCall, result: Result): Unit {
       when {
-        call.method.equals("audioStart") -> this.startPlayer()
+        call.method.equals("audioStart") -> {
+          this.startPlayer()
+          result.success(null)
+        }
         call.method.equals("play") -> {
           val url: String? = call.argument("url")
           if (url != null)
             radioManager.playOrPause(url)
+          result.success(null)
         }
         call.method.equals("pause") -> {
           val url: String? = call.argument("url")
           if (url != null)
             radioManager.playOrPause(url)
+          result.success(null)
         }
         call.method.equals("playOrPause") -> {
           val url: String? = call.argument("url")
           if (url != null)
             radioManager.playOrPause(url)
+          result.success(null)
         }
         call.method.equals("stop") -> {
-            radioManager.stop()
+          radioManager.stop()
+          result.success(null)
         }
         call.method.equals("isPlaying") -> {
             val play = isPlaying()
