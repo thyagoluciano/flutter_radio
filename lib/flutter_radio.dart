@@ -12,8 +12,10 @@ class FlutterRadio {
 
   static bool _isPlaying = false;
 
-  static Future<void> audioStart(AudioPlayerItem item) async {
-    await FlutterRadio.setMeta(item);
+  static Future<void> audioStart([AudioPlayerItem item]) async {
+    if (item != null) {
+      await FlutterRadio.setMeta(item);
+    }
   }
 
   static Future<void> playOrPause({@required String url}) async {
