@@ -35,7 +35,7 @@ class FlutterRadio {
     try {
       String result =
           await _channel.invokeMethod('play', <String, dynamic>{
-        'path': url,
+        'url': url,
       });
       print('result: $result');
 
@@ -58,7 +58,8 @@ class FlutterRadio {
     }
     FlutterRadio._isPlaying = false;
 
-    String result = await _channel.invokeMethod('pause');
+    final Map<String, dynamic> params = <String, dynamic>{'url': url};
+    String result = await _channel.invokeMethod('pause', params);
     _removePlayerCallback();
     return result;
   }

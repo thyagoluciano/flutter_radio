@@ -137,7 +137,7 @@ FlutterMethodChannel* _channel;
 
 - (void) handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
     if ([@"play" isEqualToString:call.method]) {
-        NSString* path = (NSString*)call.arguments[@"path"];
+        NSString* path = (NSString*)call.arguments[@"url"];
         [self startPlayer:path result:result];
     } else if ([@"stop" isEqualToString:call.method]) {
         [self stopPlayer:result];
