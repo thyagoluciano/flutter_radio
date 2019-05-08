@@ -1,4 +1,8 @@
 
+## 0.1.6
+
+* iOS Version Implemented
+
 ## 0.1.5
 
 * Call result success on invokeMethod calls
