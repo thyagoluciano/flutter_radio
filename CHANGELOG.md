@@ -1,4 +1,8 @@
 
+## 0.1.7
+
+* fix
+
 ## 0.1.6
 
 * iOS Version Implemented
