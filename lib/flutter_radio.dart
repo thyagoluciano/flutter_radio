@@ -3,7 +3,9 @@ import 'dart:core';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 
+typedef void PlayChange(bool isPlay);
 class FlutterRadio {
   static const MethodChannel _channel = const MethodChannel('flutter_radio');
   static StreamController<PlayStatus> _playerController;
@@ -11,6 +13,8 @@ class FlutterRadio {
   Stream<PlayStatus> get onPlayerStateChanged => _playerController.stream;
 
   static bool _isPlaying = false;
+
+  static PlayChange playChange;
 
   static Future<void> audioStart([AudioPlayerItem item]) async {
     if (item != null) {
@@ -90,6 +94,13 @@ class FlutterRadio {
           Map<String, dynamic> result = jsonDecode(call.arguments);
           _playerController.add(new PlayStatus.fromJSON(result));
           break;
+        case "controlPlayChanged":
+          Map<String, dynamic> result = jsonDecode(call.arguments);
+          String statuts = result["status"];
+          if(playChange != null){
+            playChange(statuts == "0" ? false : true);
+          }
+          break;  
         default:
           throw new ArgumentError('Unknown method ${call.method}');
       }
@@ -152,6 +163,8 @@ class AudioPlayerItem{
   double progress;
   String album;
   bool local;
+  String artist;
+  String defaultImage;
 
   AudioPlayerItem({
     this.id,
@@ -161,7 +174,9 @@ class AudioPlayerItem{
     this.duration,
     this.progress,
     this.album,
-    this.local
+    this.local,
+    this.artist,
+    this.defaultImage,
   });
 
   Map<String, dynamic> toMap(){
@@ -173,7 +188,9 @@ class AudioPlayerItem{
       'duration': this.duration != null ?this.duration.inSeconds : 0,
       'progress': this.progress ?? 0,
       'album': this.album,
-      'local': this.local
+      'local': this.local,
+      'artist': this.artist,
+      'defaultImage': this.defaultImage
     };
   }
 
