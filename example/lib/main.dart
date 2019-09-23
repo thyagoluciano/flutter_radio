@@ -12,7 +12,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   static const streamUrl =
-      "https://ia802708.us.archive.org/3/items/count_monte_cristo_0711_librivox/count_of_monte_cristo_001_dumas.mp3";
+      "http://sc1.111ttt.cn/2017/1/05/09/298092035545.mp3";
 
   bool isPlaying;
 
@@ -24,7 +24,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> audioStart() async {
-    await FlutterRadio.audioStart();
+    AudioPlayerItem item=AudioPlayerItem(title: "title",url: "http://sc1.111ttt.cn/2017/1/05/09/298092035545.mp3",album: "album",id: "id");
+    await FlutterRadio.audioStart(item);
     print('Audio Start OK');
   }
 
@@ -37,34 +38,34 @@ class _MyAppState extends State<MyApp> {
         ),
         body: new Center(
             child: Column(
-          children: <Widget>[
-            FlatButton(
-              child: Icon(Icons.play_circle_filled),
-              onPressed: () {
-                FlutterRadio.playOrPause(url: streamUrl);
-                playingStatus();
-              },
-            ),
-            FlatButton(
-              child: Icon(Icons.pause_circle_filled),
-              onPressed: () {
-                FlutterRadio.playOrPause(url: streamUrl);
-                playingStatus();
-              },
-            ),
-            FlatButton(
-              child: Icon(Icons.stop),
-              onPressed: () {
-                FlutterRadio.playOrPause(url: streamUrl);
-                playingStatus();
-              },
-            ),
-            Text(
-              'Check Playback Status: $isPlaying',
-              style: TextStyle(fontSize: 25.0),
-            )
-          ],
-        )),
+              children: <Widget>[
+                FlatButton(
+                  child: Icon(Icons.play_circle_filled),
+                  onPressed: () {
+                    FlutterRadio.playOrPause(url: streamUrl);
+                    playingStatus();
+                  },
+                ),
+                FlatButton(
+                  child: Icon(Icons.pause_circle_filled),
+                  onPressed: () {
+                    FlutterRadio.playOrPause(url: streamUrl);
+                    playingStatus();
+                  },
+                ),
+                FlatButton(
+                  child: Icon(Icons.stop),
+                  onPressed: () {
+                    FlutterRadio.playOrPause(url: streamUrl);
+                    playingStatus();
+                  },
+                ),
+                Text(
+                  'Check Playback Status: $isPlaying',
+                  style: TextStyle(fontSize: 25.0),
+                )
+              ],
+            )),
       ),
     );
   }

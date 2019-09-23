@@ -1,3 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="br.com.thyagoluciano.flutterradio">
+  package="org.gafs.flutter_plugin_playlist">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <application>
+        <service android:name="org.gafs.flutter_plugin_playlist.service.MediaService"></service>
+    </application>
+
 </manifest>

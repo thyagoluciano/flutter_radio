@@ -1,16 +1,14 @@
-group 'br.com.thyagoluciano.flutterradio'
+group 'org.gafs.flutter_plugin_playlist'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.3.21'
     repositories {
         google()
         jcenter()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.android.tools.build:gradle:3.2.1'
     }
 }
 
@@ -22,28 +20,38 @@ rootProject.allprojects {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 28
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
     defaultConfig {
         minSdkVersion 16
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     lintOptions {
         disable 'InvalidPackage'
     }
-}
 
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'org.greenrobot:eventbus:3.0.0'
-    compileOnly files('tmplibs/flutter.jar')
+    dependencies {
 
-    // full exoplayer library
-    implementation 'com.google.android.exoplayer:exoplayer:2.8.2'
+        // ExoPlayer
+        implementation "com.google.android.exoplayer:exoplayer-core:2.6.1"
+        implementation "com.google.android.exoplayer:exoplayer-dash:2.6.1"
+        implementation "com.google.android.exoplayer:exoplayer-hls:2.6.1"
+        implementation "com.google.android.exoplayer:exoplayer-smoothstreaming:2.6.1"
+        implementation "com.google.android.exoplayer:extension-okhttp:2.6.1"
+
+        // ExoMedia
+        implementation "com.devbrackets.android:exomedia:4.1.0"
+        implementation "com.devbrackets.android:playlistcore:2.0.1"
+
+        // Image Loading
+        implementation "com.github.bumptech.glide:glide:4.9.0"
+        annotationProcessor "com.github.bumptech.glide:compiler:4.9.0"
+        implementation "com.github.bumptech.glide:okhttp3-integration:4.9.0"
+
+        // OkHttp
+        implementation "com.squareup.okhttp3:okhttp:3.10.0"
+    }
 }

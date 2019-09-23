@@ -12,7 +12,7 @@ dependencies:
 
 flutter:
   plugin:
-    androidPackage: br.com.thyagoluciano.flutterradio
+    androidPackage: org.gafs.flutter_plugin_playlist
     pluginClass: FlutterRadioPlugin
 
 environment:

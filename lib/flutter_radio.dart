@@ -152,6 +152,7 @@ class AudioPlayerItem{
   double progress;
   String album;
   bool local;
+  bool isStream;
 
   AudioPlayerItem({
     this.id,
@@ -173,7 +174,8 @@ class AudioPlayerItem{
       'duration': this.duration != null ?this.duration.inSeconds : 0,
       'progress': this.progress ?? 0,
       'album': this.album,
-      'local': this.local
+      'local': this.local,
+      'isStream': this.isStream,
     };
   }
 
