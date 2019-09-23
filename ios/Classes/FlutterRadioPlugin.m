@@ -28,6 +28,10 @@ FlutterMethodChannel* _channel;
 
 - (instancetype)init {
     if (self = [super init]) {
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        [session setActive:YES error:nil];
+        [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+        
         //setup control center and lock screen controls
         MPRemoteCommandCenter *commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
         [commandCenter.togglePlayPauseCommand setEnabled:YES];
@@ -38,10 +42,10 @@ FlutterMethodChannel* _channel;
         [commandCenter.previousTrackCommand setEnabled:NO];
         [commandCenter.changePlaybackRateCommand setEnabled:NO];
         
-        [commandCenter.togglePlayPauseCommand addTarget:self action:@selector(playerPlayPause)];
-        [commandCenter.playCommand addTarget:self action:@selector(playerPlayPause)];
-        [commandCenter.pauseCommand addTarget:self action:@selector(playerPlayPause)];
-        [commandCenter.stopCommand addTarget:self action:@selector(playerStop)];
+        [commandCenter.togglePlayPauseCommand addTarget:self action:@selector(controlPlayOrPause)];
+        [commandCenter.playCommand addTarget:self action:@selector(controlPlayOrPause)];
+        [commandCenter.pauseCommand addTarget:self action:@selector(controlPlayOrPause)];
+        [commandCenter.stopCommand addTarget:self action:@selector(controlPlayStop)];
         
         //Unused options
         [commandCenter.skipForwardCommand setEnabled:NO];
@@ -223,25 +227,50 @@ FlutterMethodChannel* _channel;
 - (void) setMeta:(NSDictionary*) meta result: (FlutterResult)result {
     NSLog(@"setMeta");
     
+    if(meta == nil){
+        return;
+    }
+    
     NSString* itemTitle = [meta objectForKey:@"title"];
     NSString* itemAlbum = [meta objectForKey:@"album"];
     NSNumber* duration = [meta objectForKey:@"duration"];
     NSNumber* progress = [meta objectForKey:@"progress"];
-
+    NSString* artist = [meta objectForKey:@"artist"];
+    NSString* url = [meta objectForKey:@"url"];
+    NSString* defaultImage = [meta objectForKey:@"defaultImage"];
+    
+    
     MPMediaItemArtwork* ControlArtwork;
-    if (@available(iOS 10.0, *)) {
-        ControlArtwork = [[MPMediaItemArtwork alloc] initWithBoundsSize:CGSizeMake(600, 600) requestHandler:^UIImage * _Nonnull(CGSize size) {
-            return [meta objectForKey:@"coverUrl"];
-        }];
-    } else {
-        UIImage* image = [UIImage imageWithData: [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: [meta objectForKey:@"coverUrl"]]]];
-        ControlArtwork = [[MPMediaItemArtwork alloc] initWithImage: image];
+    if(([url isKindOfClass:NSNull.class] || url.length <= 0) && defaultImage != nil){
+        NSMutableString *filePath = [NSMutableString stringWithString:defaultImage];
+        NSString *docsPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString *imagePath = [docsPath stringByAppendingPathComponent:filePath];
+        NSURL *imageUrl = [NSURL fileURLWithPath:imagePath];
+        NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
+        UIImage *shareImage = [UIImage imageWithData:imageData];
+        if(shareImage != nil){
+            ControlArtwork = [[MPMediaItemArtwork alloc]initWithImage:shareImage];
+        }
+        
+    }else if(![url isKindOfClass:NSNull.class]){
+        if (@available(iOS 10.0, *)) {
+            ControlArtwork = [[MPMediaItemArtwork alloc] initWithBoundsSize:CGSizeMake(600, 600) requestHandler:^UIImage * _Nonnull(CGSize size) {
+                return [UIImage imageWithData: [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: [meta objectForKey:@"url"]]]];
+            }];
+        } else {
+            UIImage* image = [UIImage imageWithData: [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: [meta objectForKey:@"url"]]]];
+            ControlArtwork = [[MPMediaItemArtwork alloc] initWithImage: image];
+        }
     }
+
+    
+    
     
     songInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                          itemTitle, MPMediaItemPropertyTitle,
                          ControlArtwork, MPMediaItemPropertyArtwork,
                          itemAlbum, MPMediaItemPropertyAlbumTitle,
+                         artist, MPMediaItemPropertyArtist,
                          duration, MPMediaItemPropertyPlaybackDuration,
                          progress, MPNowPlayingInfoPropertyElapsedPlaybackTime,
                          [NSNumber numberWithDouble:1.0], MPNowPlayingInfoPropertyPlaybackRate, nil];
@@ -252,15 +281,35 @@ FlutterMethodChannel* _channel;
 
 // Native stuff
 
-- (void) playerPlayPause{
+- (BOOL) playerPlayPause{
     NSLog(@"playerPlayPause");
     if (_isPlaying) {
         NSLog(@"playerPlayPause pause");
         [self playerStop];
+        return NO;
     }else{
         NSLog(@"playerPlayPause play");
         [self playerStart];
+        return YES;
     }
+}
+
+- (void)controlPlayOrPause{
+    BOOL isPlaying = [self playerPlayPause];
+    NSString * status = @"0";
+    if(isPlaying == YES){
+        status = @"1";
+    }
+    NSString* statusStr = [NSString stringWithFormat:@"{\"status\": \"%@\"}", status];
+    
+    [_channel invokeMethod:@"controlPlayChanged" arguments:statusStr];
+}
+
+-(void)controlPlayStop{
+    [self playerStop];
+    NSString* statusStr = @"{\"status\": \"0\"}";
+    
+    [_channel invokeMethod:@"controlPlayChanged" arguments:statusStr];
 }
 
 - (void) playerStart {
@@ -304,13 +353,13 @@ FlutterMethodChannel* _channel;
         [listener onPlayerStopped];
     }
     
-    [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = nil;
+//    [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = nil;
 }
 
 - (void) setNowPlaying {
-    NSLog(@"setNowPlaying");
+    NSLog(@"setNowPlaying  %@",songInfo);
     [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = songInfo;
-    [self startTimer];
+//    [self startTimer];
 }
 
 //region: Observables

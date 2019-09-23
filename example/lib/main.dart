@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> audioStart() async {
-    AudioPlayerItem item=AudioPlayerItem(title: "title",url: "http://sc1.111ttt.cn/2017/1/05/09/298092035545.mp3",album: "album",id: "id");
+    AudioPlayerItem item=AudioPlayerItem(title: "title",url: "http://sc1.111ttt.cn/2017/1/05/09/298092035545.mp3",album: "album",id: "id",isStream: false,artist: "artist");
     await FlutterRadio.audioStart(item);
     print('Audio Start OK');
   }
