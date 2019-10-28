@@ -38,10 +38,26 @@ FlutterMethodChannel* _channel;
         [commandCenter.previousTrackCommand setEnabled:NO];
         [commandCenter.changePlaybackRateCommand setEnabled:NO];
         
-        [commandCenter.togglePlayPauseCommand addTarget:self action:@selector(playerPlayPause)];
-        [commandCenter.playCommand addTarget:self action:@selector(playerPlayPause)];
-        [commandCenter.pauseCommand addTarget:self action:@selector(playerPlayPause)];
-        [commandCenter.stopCommand addTarget:self action:@selector(playerStop)];
+        //        [commandCenter.togglePlayPauseCommand addTarget:self action:@selector(playerPlayPause)];
+        [commandCenter.togglePlayPauseCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
+            [self playerPlayPause];
+            return MPRemoteCommandHandlerStatusSuccess;
+        }];
+//        [commandCenter.playCommand addTarget:self action:@selector(playerPlayPause)];
+        [commandCenter.playCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
+            [self playerPlayPause];
+            return MPRemoteCommandHandlerStatusSuccess;
+        }];
+//        [commandCenter.pauseCommand addTarget:self action:@selector(playerPlayPause)];
+        [commandCenter.pauseCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
+            [self playerPlayPause];
+            return MPRemoteCommandHandlerStatusSuccess;
+        }];
+//        [commandCenter.stopCommand addTarget:self action:@selector(playerStop)];
+        [commandCenter.stopCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
+            [self playerStop];
+            return MPRemoteCommandHandlerStatusSuccess;
+        }];
         
         //Unused options
         [commandCenter.skipForwardCommand setEnabled:NO];
