@@ -1,7 +1,10 @@
+## 0.1.8
+
+* Add new example App using AndroidX
 
 ## 0.1.7
 
-* fix
+* Fix
 
 ## 0.1.6
 
@@ -10,7 +13,7 @@
 ## 0.1.5
 
 * Call result success on invokeMethod calls
-* fix warning
+* Fix warning
 
 ## 0.1.4
 
@@ -23,4 +26,4 @@
 
 ## 0.0.1
 
-* TODO: Describe initial release.
+* Initial release.
