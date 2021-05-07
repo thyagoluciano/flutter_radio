@@ -15,6 +15,7 @@ class _MyAppState extends State<MyApp> {
       "http://ia802708.us.archive.org/3/items/count_monte_cristo_0711_librivox/count_of_monte_cristo_001_dumas.mp3";
 
   bool isPlaying;
+  double _volumen = 0.5;
 
   @override
   void initState() {
@@ -25,6 +26,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> audioStart() async {
     await FlutterRadio.audioStart();
+    await FlutterRadio.setVolume(_volumen);
     print('Audio Start OK');
   }
 
@@ -57,6 +59,26 @@ class _MyAppState extends State<MyApp> {
               onPressed: () {
                 FlutterRadio.playOrPause(url: streamUrl);
                 playingStatus();
+              },
+            ),
+            FlatButton(
+              child: Icon(Icons.add),
+              onPressed: () async {
+                setState(() {
+                  if(_volumen < 1)
+                    _volumen += 0.05;
+                });
+                await FlutterRadio.setVolume(_volumen);
+              },
+            ),
+            FlatButton(
+              child: Icon(Icons.remove),
+              onPressed: () async {
+                setState(() {
+                  if(_volumen > 0)
+                    _volumen -= 0.05;
+                });
+                await FlutterRadio.setVolume(_volumen);
               },
             ),
             Text(

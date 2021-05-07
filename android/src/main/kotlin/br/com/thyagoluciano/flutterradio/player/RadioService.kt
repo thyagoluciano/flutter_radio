@@ -93,6 +93,10 @@ class RadioService(val context: Context) : Player.EventListener, AudioManager.On
         return this.status.equals(PlaybackStatus.PLAYING)
     }
 
+    fun setVolume(volume: Float) {
+        exoPlayer.setVolume(volume);
+    }
+
     fun getStatus() : String = status
 
     override fun onAudioFocusChange(focusChange: Int) {
