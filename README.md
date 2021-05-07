@@ -1,4 +1,7 @@
-# flutter_radio
+# This project has been discontinued
+
+
+## flutter_radio
 
 A Flutter audio plugin for Android to play remote audio files using ExoPlayer
 
