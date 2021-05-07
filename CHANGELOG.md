@@ -1,5 +1,9 @@
 ## 0.1.8
 
+* Add volume controll android
+
+## 0.1.8
+
 * Add new example App using AndroidX
 
 ## 0.1.7
