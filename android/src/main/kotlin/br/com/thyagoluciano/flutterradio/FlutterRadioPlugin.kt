@@ -52,6 +52,10 @@ class FlutterRadioPlugin(val mRegistrar: Registrar): MethodCallHandler {
             val play = isPlaying()
             result.success(play)
         }
+        call.method.equals("setVolume") -> {
+            val volume: Float = call.argument("volume")
+            radioManager.setVolume(volume);
+        }
         else -> result.notImplemented()
       }
   }
